@@ -1,12 +1,8 @@
-
-Auto rotate screen & touchpad
-
-
 #!/bin/bash
-# Auto rotate touch screen based on device orientation.
+# Auto rotate $ touch screen based on device orientation.
 #
 #   Based on chadm's script at https://linuxappfinder.com/blog/auto_screen_rotation_in_ubuntu.
-
+# INSTALL >>> sudo apt install iio-sensor-proxy inotify-tools
 # Receives input from monitor-sensor (part of iio-sensor-proxy package) and sets the touchscreen
 # orientation based on the accellerometer positionn. We assume that the display rotation is 
 # handled by Linux Mint 18.1, Cinnamon 3.2.7. If this is not the case, add the appropriate
@@ -16,20 +12,22 @@ Auto rotate screen & touchpad
 
 # Kill any existing monitor-sensor instance, for example if manually invoking
 # from a terminal for testing.
+
 killall monitor-sensor
 
 # Launch monitor-sensor and store the output in a RAM based file that can be checked by the rest of the script.
 # We use the RAM based file system to save wear where an SSD is being used.
+
 monitor-sensor > /dev/shm/sensor.log 2>&1 &
 
 # Configure these to match your hardware (names taken from `xinput` output).
-TOUCHPAD=8  #'Goodix Capacitive TouchScreen'
-TOUCHSCREEN=13 #'Goodix Capacitive TouchScreen'
+TOUCHPAD="8"  #'Goodix Capacitive TouchScreen'
+TOUCHSCREEN="13" #'Goodix Capacitive TouchScreen'
 TRANSFORM='Coordinate Transformation Matrix'
 
 
 
-function do_rotate
+function do_rotate()
 {
   xrandr --output $1 --rotate $2
 
